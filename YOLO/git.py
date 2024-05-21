@@ -1,5 +1,5 @@
-import cv2 as cv  # this is the computer vision header
-import cv2 #also cv header
+#import cv2 as cv  # this is the computer vision header for old cv NOT cv2
+import cv2 # cv2 header
 import time  # time header
 import numpy as np  # numpy/matrix header
 import os 
@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 
 
 def ReadPicture():
-    img = cv.imread('DogZiller.jpg')
+    img = cv2.imread('DogZiller.jpg')
     # this reads the image. Put the image name in single quotes
 
     if img is None:
@@ -23,7 +23,7 @@ def ReadPicture():
 
 
 def ReadVideo():
-    capture = cv.VideoCapture('YOLO\Dogzilla_Video.mp4')
+    capture = cv2.VideoCapture('YOLO\Dogzilla_Video.mp4')
     # This reads the video. Argument can be an integer (for webcam) or a video path.
     # you can also source the relative path as I did above 'YOLO\Dogzilla_Video.mp4'
 
@@ -530,9 +530,51 @@ def Add_Text():
     cv2.waitKey(0)
     
     
+    
+def Contours():
+    
+    #Supporting Docs
+    
+    #https://docs.opencv.org/3.4/d4/d73/tutorial_py_contours_begin.html
+
+    img = cv2.imread('DogZiller.jpg')
+
+    if img is None:
+        print("Error: Unable to read the image file")
+        return
+
+    Lower_Bound_Thresh = 125
+    Upper_Bound_Thresh = 255
+    
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    #need to convert to grey first
+
+    ret, thresh = cv2.threshold(img, Lower_Bound_Thresh, Upper_Bound_Thresh, cv2.THRESH_BINARY_INV)
+    #applied an inverse threshold
+    
+    contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    
+    for cnt in contours:
+        R = 0
+        G = 255
+        B = 0
+        Thickness = 2
+        if cv2.contourArea(cnt) > 200:
+            #cv2.drawContours(img, cnt, -1 (R,G,B), Thickness)
+            
+            x1, y1, w, h = cv2.boundingRect(cnt)
+            
+            cv2.rectangle(img, (x1, y1), (x1 + w, y1 + h), (R,G,B), Thickness)
+    
+    cv2.imshow('Greyed', img)
+    cv2.imshow('Contour', thresh)
+
+    cv2.waitKey(0)
+
+
 if __name__ == '__main__':
     
-    #ReadPicture()
+    ReadPicture()
     #ReadVideo()
     #ResizePicture_ParameterWay()
     #ResizePic_EasyWay()
@@ -548,6 +590,7 @@ if __name__ == '__main__':
     #Add_Rectangle()
     #Add_Circle()
     #Add_Text()
+    #Contours()
     #change to whatever function you want
     pass
     
