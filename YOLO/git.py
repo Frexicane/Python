@@ -22,14 +22,35 @@ def ReadPicture():
     # this sets the "wait time" infinite by setting it to 0
 
 
-def ReadVideo():
-    capture = cv2.VideoCapture('YOLO\Dogzilla_Video.mp4')
+def ReadPicture_with_keyboard_interupt():
+        img = cv2.imread('DogZiller.jpg')
+
+        if img is None:
+            print("Error: Unable to read the image file")
+            return
+        
+        print("Press e to exit the picture \n")
+        cv2.imshow('DogZiller', img)
+
+        while True:
+            key = cv2.waitKey(0)
+
+            if key == ord('e'):  # Check if the 'e' key is pressed
+                break  # Exit the loop if 'e' is pressed
+
+        cv2.destroyAllWindows()
+
+
+def ReadVideo_with_keyboard_interupt():
+    capture = cv2.VideoCapture('Dogzilla_Video.mp4')
     # This reads the video. Argument can be an integer (for webcam) or a video path.
     # you can also source the relative path as I did above 'YOLO\Dogzilla_Video.mp4'
 
     if not capture.isOpened():
         print("Error: Unable to open video file")
         return
+
+    print("press d to exit the video \n")
 
     while True:
         # Need to read video in a while loop
@@ -50,11 +71,31 @@ def ReadVideo():
 
         if cv2.waitKey(20) & 0xFF == ord('d'):
             # If the letter 'd' is pressed, end the video.
+            
+            # this 20 is very important, here's an explanation 
+            '''
+            You take 1/(# of frames per second on your video)
+            This will give you x number of frames per milisecond
+            Multiply that number by 1000 to get the "20" (will not always be 20)
+            
+            Here's are 2 examples
+            
+            Video = 25 Frames Per Second (fps)
+            1/25 = 0.04
+            0.04 * 1000 = 40
+            so you would write if cv2.waitKey(40) & 0xFF == ord('d'):
+            
+            Video = 30 Frames Per Second (fps)
+            1/30 = 0.033
+            0.033 * 1000 = 33.33
+            so you would write if cv2.waitKey(33) & 0xFF == ord('d'):
+            '''
             break
 
     capture.release()
     cv2.destroyAllWindows()
     # Closes the video window
+
 
 def ResizePicture_ParameterWay(frame, scale = 0.75):
     #this method is by using the function parameters unlike the one below
@@ -574,8 +615,9 @@ def Contours():
 
 if __name__ == '__main__':
     
-    ReadPicture()
-    #ReadVideo()
+    #ReadPicture()
+    #ReadPicture_with_keyboard_interupt()
+    #ReadVideo_with_keyboard_interupt()
     #ResizePicture_ParameterWay()
     #ResizePic_EasyWay()
     #CropPic()
