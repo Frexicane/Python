@@ -257,7 +257,7 @@ def Median_Blurring():
     cv2.waitKey(0)
 
 
-def Thresholding():
+def Simple_Thresholding():
     
     #supporting documents 
     
@@ -289,7 +289,7 @@ def Thresholding():
 
     cv2.waitKey(0)
     
-def AdaptiveThresholding():
+def Adaptive_Thresholding():
     
     #adaptive thresholding is good when you have shadows or lots of black and white in an image/video
     
@@ -322,6 +322,59 @@ def AdaptiveThresholding():
 
     cv2.waitKey(0)
     
+def Edge_Detection():
+    
+    #Canny Edge Detection from Open CV
+    
+    # https://docs.opencv.org/4.x/d7/de1/tutorial_js_canny.html
+    
+    img = cv2.imread('DogZiller.jpg')
+
+    if img is None:
+        print("Error: Unable to read the image file")
+        return
+
+    img_edge = cv2.Canny(img, 100,200)
+    
+    '''
+    The first threshold (100) is the lower threshold. It is used to identify weak edges in the image. 
+    Any edge with a gradient magnitude higher than this threshold is considered a strong edge.
+
+    The second threshold (200) is the higher threshold. It is used to identify strong edges in the image. 
+    Any edge with a gradient magnitude higher than this threshold is considered a strong edge.
+    '''
+
+    cv2.imshow('Edge Detection', img_edge)
+
+
+    cv2.waitKey(0)
+
+def Dilate_and_Erode():
+    
+    #this examples builds off of the edge detection function above
+    
+    #Supporting Docs
+    # https://docs.opencv.org/3.4/db/df6/tutorial_erosion_dilatation.html
+    
+    img = cv2.imread('DogZiller.jpg')
+
+    if img is None:
+        print("Error: Unable to read the image file")
+        return
+
+    img_edge = cv2.Canny(img, 100,200)
+    
+    img_edge_dilate = cv2.dilate(img_edge, np.ones((5,5), dtype = np.int8))
+    
+    img_edge_erode = cv2.erode((img_edge_dilate, np.ones((5,5), dtype = np.int8)))
+    
+
+    cv2.imshow('Original Pic', img)
+    cv2.imshow('Edge Detection', img_edge)
+    cv2.imshow('Dilate', img_edge_dilate)
+    cv2.imshow('Erode', img_edge_erode)
+
+    cv2.waitKey(0)
     
 if __name__ == '__main__':
     
@@ -333,7 +386,9 @@ if __name__ == '__main__':
     #ConvertColor()
     #GreyScale()
     #General_Blurring()
-    #Thresholding()
-    #AdaptiveThresholding()
+    #Simple_Thresholding()
+    #Adaptive_Thresholding()
+    #Edge_Detection()
+    #Dilate_and_Erode()
     #change to whatever function you want
     pass
