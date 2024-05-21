@@ -206,8 +206,10 @@ def Gaussian_Blurring():
 
     img_blur = cv2.blur(img,(k_size ,k_size ))
     
-    img_Guas = cv2.GaussianBlur(img, (k_size, k_size), 3)
-    #The standard deviation along the x and y directions of the Gaussian kernel. 
+    Stand_Dev = 3
+    
+    img_Guas = cv2.GaussianBlur(img, (k_size, k_size), Stand_Dev)
+    #3 is The standard deviation along the x and y directions of the Gaussian kernel. 
     # This controls the spread of the Gaussian distribution used for blurring. 
     # A higher standard deviation results in a blurrier image.
     
@@ -239,8 +241,10 @@ def Median_Blurring():
 
     img_blur = cv2.blur(img,(k_size ,k_size ))
     
-    img_Guas = cv2.GaussianBlur(img, (k_size, k_size), 3)
-    #The standard deviation along the x and y directions of the Gaussian kernel. 
+    Stand_Dev = 3
+    
+    img_Guas = cv2.GaussianBlur(img, (k_size, k_size), Stand_Dev)
+    #3 is The standard deviation along the x and y directions of the Gaussian kernel. 
     # This controls the spread of the Gaussian distribution used for blurring. 
     # A higher standard deviation results in a blurrier image.
     
@@ -271,7 +275,10 @@ def Simple_Thresholding():
 
     img_greyscaled = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     
-    ret, thresh = cv2.threshold(img_greyscaled, 80, 255, cv2.THRESH_BINARY)
+    Lower_Threshold = 80
+    Higher_Threshold = 255
+    
+    ret, thresh = cv2.threshold(img_greyscaled, Lower_Threshold, Higher_Threshold, cv2.THRESH_BINARY)
     #all values below 80 will go to 0 an anything above 80 will go to 255
     
     #this example is using threshold binary but there are many types from the link above
@@ -279,7 +286,7 @@ def Simple_Thresholding():
     thresh = cv2.blur(thresh,(10,10))                                   #can delete this
     #10 and 10 are the k sizes used (just an example)
     
-    ret, thresh = cv2.threshold(thresh, 80, 255, cv2.THRESH_BINARY)     #can delete this
+    ret, thresh = cv2.threshold(thresh, Lower_Threshold, Higher_Threshold, cv2.THRESH_BINARY)     #can delete this
     
     cv2.imshow('Original Pic', img)
     #show the old pic before conversion 
@@ -305,11 +312,16 @@ def Adaptive_Thresholding():
 
     img_greyscaled = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     
-    thresh = cv2.adaptiveThreshold(img_greyscaled, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY,21,30)
+    Lower_Threshold = 21
+    Higher_Threshold = 30
+    
+    thresh = cv2.adaptiveThreshold(img_greyscaled, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY,Lower_Threshold,Higher_Threshold)
+    
+    #the 255 means each pixel will be set to white (0 is black, 255 is white)
     
     #this is using the adaptive GAUSSIAN blue, there are others
     
-    #the 20 and 30 are the thresholds for the regions
+    #the 21 and 30 are the thresholds for the regions
     
     #s the threshold is 20 or below, it will apply a gaussian and 
     # if the threshhold is abovfe 31, then it will apply a binary threshold
@@ -334,7 +346,11 @@ def Edge_Detection():
         print("Error: Unable to read the image file")
         return
 
-    img_edge = cv2.Canny(img, 100,200)
+    Lower_Threshold = 100
+    Higher_Threshold = 200
+
+
+    img_edge = cv2.Canny(img, Lower_Threshold,Higher_Threshold)
     
     '''
     The first threshold (100) is the lower threshold. It is used to identify weak edges in the image. 
@@ -358,11 +374,15 @@ def Dilate_and_Erode():
     
     img = cv2.imread('DogZiller.jpg')
 
+
     if img is None:
         print("Error: Unable to read the image file")
         return
 
-    img_edge = cv2.Canny(img, 100,200)
+    Lower_Threshold = 100
+    Upper_Threshold = 200
+
+    img_edge = cv2.Canny(img, Lower_Threshold, Upper_Threshold)
     
     img_edge_dilate = cv2.dilate(img_edge, np.ones((5,5), dtype = np.int8))
     
@@ -375,6 +395,140 @@ def Dilate_and_Erode():
     cv2.imshow('Erode', img_edge_erode)
 
     cv2.waitKey(0)
+    
+    
+def Add_Line():
+    
+    img = cv2.imread('Chalkboard.jpg')
+    
+    print(img.shape)
+    #print this to show the size of the pic in the terminal
+    #so that way you dont plot a point outside the boundary
+    
+    #** remember in the terminal it will print (y,x) instead of (x,y)
+
+    
+    if img is None:
+        print("Error: Unable to read the image file")
+        return
+    
+    Starting_Point_X = 100
+    Starting_Point_Y = 150
+    Ending_Point_X = 300
+    Ending_Point_Y = 350
+    R = 0
+    G = 0
+    B = 255
+    Thickness = 3
+    
+    cv2.line(img,(Starting_Point_X,Starting_Point_Y),(Ending_Point_X, Ending_Point_Y), (R,G,B), Thickness)
+    #(R,G,B) values are measured 0-255, so if you want red do (255,0,0)
+    #If you want blue, use (0,0,255)
+    #If you want a color thats not just PURE red, green, or blue, you have to look up the color combo
+
+
+    cv2.imshow('Chalkboard', img)
+
+    cv2.waitKey(0)
+
+
+def Add_Rectangle():
+
+    
+    img = cv2.imread('Chalkboard.jpg')
+    
+    print(img.shape)
+    #print this to show the size of the pic in the terminal
+    #so that way you dont plot a point outside the boundary
+    
+    #** remember in the terminal it will print (y,x) instead of (x,y)
+
+    
+    if img is None:
+        print("Error: Unable to read the image file")
+        return
+    
+    Top_Left_X = 100
+    Top_Left_Y = 150
+    Bottom_Right_X = 300
+    Bottom_Right_Y = 350
+    #to make a rectangle you are plotting the top left corner and bottom right 
+    R = 0
+    G = 0
+    B = 255
+    Thickness = 3
+    #if your thickness is -1, then it will be a solid filled rectangle*****
+    
+    cv2.rectangle(img,(Top_Left_X, Top_Left_Y),(Bottom_Right_X, Bottom_Right_Y),(R,G,B), Thickness)
+    
+    cv2.imshow('Rectangle', img)
+    
+    cv2.waitKey(0)
+    
+def Add_Circle():
+
+    img = cv2.imread('Chalkboard.jpg')
+    
+    print(img.shape)
+    #print this to show the size of the pic in the terminal
+    #so that way you dont plot a point outside the boundary
+    
+    #** remember in the terminal it will print (y,x) instead of (x,y)
+    
+    if img is None:
+        print("Error: Unable to read the image file")
+        return
+    
+    Center_X = 350
+    Center_Y = 350
+    Radius = 100
+    R = 100
+    G = 0
+    B = 200
+    Thickness = 3
+    #if your thickness is -1, then it will be a solid filled *****
+    
+    cv2.circle(img,(Center_X, Center_Y),Radius, (R,G,B), Thickness)
+    
+    cv2.imshow('Circle', img)
+    
+    cv2.waitKey(0)
+
+def Add_Text():
+
+    #supporting documents
+    
+    #https://docs.opencv.org/4.x/d6/d6e/group__imgproc__draw.html
+
+    img = cv2.imread('Chalkboard.jpg')
+    
+    print(img.shape)
+    #print this to show the size of the pic in the terminal
+    #so that way you dont plot a point outside the boundary
+    
+    #** remember in the terminal it will print (y,x) instead of (x,y)
+    
+    if img is None:
+        print("Error: Unable to read the image file")
+        return
+    
+    X_Position = 50
+    Y_Position = 240
+    Font = cv2.FONT_HERSHEY_SIMPLEX
+    R = 100
+    G = 0
+    B = 100
+    Thickness = 2
+    TextSize = 2
+    
+    cv2.putText(img, 'This is a Text', (X_Position, Y_Position), Font, TextSize,  (R, G, B), Thickness)
+    #cv2.putText(img, 'This is a Text', (X_Position, Y_Position), cv2.FONT_HERSHEY_SIMPLEX, (B, G, R), Thickness)
+
+    
+    cv2.imshow('Text', img)
+    
+    cv2.waitKey(0)
+    
     
 if __name__ == '__main__':
     
@@ -390,5 +544,10 @@ if __name__ == '__main__':
     #Adaptive_Thresholding()
     #Edge_Detection()
     #Dilate_and_Erode()
+    #Add_Line()
+    #Add_Rectangle()
+    #Add_Circle()
+    #Add_Text()
     #change to whatever function you want
     pass
+    
