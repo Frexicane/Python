@@ -74,7 +74,7 @@ def ResizePicture_ParameterWay(frame, scale = 0.75):
 
     dimensions = (width, height)
 
-    return cv2.resize(frame, dimensions, interpolation=cv.INTER_AREA)
+    return cv2.resize(frame, dimensions, interpolation=cv2.INTER_AREA)
 
     cv2.waitKey(0)
 
