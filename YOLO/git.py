@@ -1,6 +1,7 @@
 import cv2 as cv  # this is the computer vision header
 import time  # time header
 import numpy as np  # matrix header
+import os 
 
 
 def ReadPicture():
@@ -54,6 +55,7 @@ def ReadVideo():
     # Closes the video window
 
 def ResizePicture(frame, scale = 0.75):
+    #this method is by using the function parameters unlike the one below
     #takes in the frame (picture) and scales it by 0.75
     #Im just using 0.75 as an example
 
@@ -74,9 +76,41 @@ def ResizePicture(frame, scale = 0.75):
 
     cv.waitKey(0)
 
+def ResizePic():
+    #this is the better way
+
+    img = cv.imread('DogZiller.jpg')
+    
+    Resized_Pic = cv2.resize(img, (200,100))
+    
+    print(Resized_Pic.shape)
+
+    # Display the captured frame
+    cv.imshow('Resizded Pic', Resized_Pic)
+    
+    cv.waitKey(0)
+
+
+def CropPic():
+    #this is how to crop a pic
+    
+    img = cv.imread('DogZiller.jpg')
+    
+    Cropped_Pic = img[320:640, 420:840]
+    
+    print(Cropped_Pic.shape)
+
+    # Display the captured frame
+    cv.imshow('Cropped Pic', Cropped_Pic)
+    
+    cv.waitKey(0)
+    
+    
 
 if __name__ == '__main__':
     #ResizePicture()
     #ReadPicture()
     #ReadVideo()
+    #ResizePic
+    #CropPic
     #change to whatever function you want
