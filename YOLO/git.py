@@ -256,6 +256,73 @@ def Median_Blurring():
 
     cv2.waitKey(0)
 
+
+def Thresholding():
+    
+    #supporting documents 
+    
+    #https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html
+
+    img = cv2.imread('DogZiller.jpg')
+
+    if img is None:
+        print("Error: Unable to read the image file")
+        return
+
+    img_greyscaled = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    
+    ret, thresh = cv2.threshold(img_greyscaled, 80, 255, cv2.THRESH_BINARY)
+    #all values below 80 will go to 0 an anything above 80 will go to 255
+    
+    #this example is using threshold binary but there are many types from the link above
+    
+    thresh = cv2.blur(thresh,(10,10))                                   #can delete this
+    #10 and 10 are the k sizes used (just an example)
+    
+    ret, thresh = cv2.threshold(thresh, 80, 255, cv2.THRESH_BINARY)     #can delete this
+    
+    cv2.imshow('Original Pic', img)
+    #show the old pic before conversion 
+
+    cv2.imshow('Threshold Conversion', thresh)
+    #Show the new pic with RGB conversion
+
+    cv2.waitKey(0)
+    
+def AdaptiveThresholding():
+    
+    #adaptive thresholding is good when you have shadows or lots of black and white in an image/video
+    
+    #supporting documents 
+    
+    #https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html
+
+    img = cv2.imread('DogZiller.jpg')
+
+    if img is None:
+        print("Error: Unable to read the image file")
+        return
+
+    img_greyscaled = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    
+    thresh = cv2.adaptiveThreshold(img_greyscaled, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY,21,30)
+    
+    #this is using the adaptive GAUSSIAN blue, there are others
+    
+    #the 20 and 30 are the thresholds for the regions
+    
+    #s the threshold is 20 or below, it will apply a gaussian and 
+    # if the threshhold is abovfe 31, then it will apply a binary threshold
+
+    cv2.imshow('Original Pic', img)
+    #show the old pic before conversion 
+
+    cv2.imshow('Adapt Threshold Conversion', thresh)
+    #Show the new pic with RGB conversion
+
+    cv2.waitKey(0)
+    
+    
 if __name__ == '__main__':
     
     #ReadPicture()
@@ -266,5 +333,7 @@ if __name__ == '__main__':
     #ConvertColor()
     #GreyScale()
     #General_Blurring()
+    #Thresholding()
+    #AdaptiveThresholding()
     #change to whatever function you want
     pass
