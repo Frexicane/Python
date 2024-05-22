@@ -21,9 +21,32 @@ def ReadPicture():
     cv2.waitKey(0)
     # this sets the "wait time" infinite by setting it to 0
 
+def ReadPicture_with_keyboard_interupt():
 
-def ReadVideo():
-    capture = cv.VideoCapture('YOLO\Dogzilla_Video.mp4')
+    #now instead of opening the pic forever, you now have to
+    #press e to exit the picture
+
+    img = cv2.imread('DogZiller.jpg')
+
+    if img is None:
+        print("Error: Unable to read the image file")
+        return
+
+    cv2.imshow('DogZiller', img)
+
+    print("press e to exit the picture \n")
+    #shows the terminal "press e to exit the picture"
+
+    # Use a loop to keep the window open until 'e' is pressed
+    while True:
+        if cv2.waitKey(20) & 0xFF == ord('e'):
+            break
+
+    cv2.destroyAllWindows()
+    #closes the window
+
+def ReadVideo_with_keyboard_interupt():
+    capture = cv2.VideoCapture('YOLO\Dogzilla_Video.mp4')
     # This reads the video. Argument can be an integer (for webcam) or a video path.
     # you can also source the relative path as I did above 'YOLO\Dogzilla_Video.mp4'
 
@@ -185,6 +208,8 @@ def GreyScale():
     cv2.waitKey(0)
 
 def General_Blurring():
+
+    #this will give a BLANKET blur to the entire image
 
 
     img = cv2.imread('DogZiller.jpg')
@@ -596,9 +621,26 @@ def Contours():
 
 
 if __name__ == '__main__':
-    #ResizePicture()
     #ReadPicture()
-    #ReadVideo()
+    ReadPicture_with_keyboard_interupt()
+    #ReadVideo_with_keyboard_interupt()
+    #ResizePic_EasyWay()
+    #CropPic()
+    #ConvertColor()
+    #GreyScale()
+    #General_Blurring()
+    #Gaussian_Blurring()
+    #Median_Blurring()
+    #Simple_Thresholding()
+    #Adaptive_Thresholding()
+    #Edge_Detection()
+    #Dilate_and_Erode()
+    #Add_Line()
+    #Add_Rectangle()
+    #Add_Circle()
+    #Add_Text()
+    #Contours()
+
     #change to whatever function you want
     pass
     
