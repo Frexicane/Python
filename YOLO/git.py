@@ -18,7 +18,6 @@ def ReadPicture():
     cv.waitKey(0)
     # this sets the "wait time" infinite by setting it to 0
 
-
 def ReadVideo():
     capture = cv.VideoCapture('YOLO\Dogzilla_Video.mp4')
     # This reads the video. Argument can be an integer (for webcam) or a video path.
@@ -75,8 +74,9 @@ def ResizePicture(frame, scale = 0.75):
     cv.waitKey(0)
 
 
+
 if __name__ == '__main__':
     #ResizePicture()
-    #ReadPicture()
+    ReadPicture()
     #ReadVideo()
     #change to whatever function you want
